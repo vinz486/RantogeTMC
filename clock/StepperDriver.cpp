@@ -1,3 +1,4 @@
+#include "esp32-hal-gpio.h"
 #include "StepperDriver.h"
 #include "settings.h"
 
@@ -8,20 +9,22 @@ void StepperDriver::begin() {
   pinMode(PIN_MINUTE_SLEEP, OUTPUT);
 
   digitalWrite(PIN_HOUR_STEP, LOW);
-  digitalWrite(PIN_HOUR_SLEEP, LOW);
+  digitalWrite(PIN_HOUR_SLEEP, HIGH);
   digitalWrite(PIN_MINUTE_STEP, LOW);
-  digitalWrite(PIN_MINUTE_SLEEP, LOW);
+  digitalWrite(PIN_MINUTE_SLEEP, HIGH);
 }
 
 void StepperDriver::step(bool hour, bool minute) {
   if(!hour && !minute)
     return;
 
+
   if(hour)
-    digitalWrite(PIN_HOUR_SLEEP, HIGH);
+    digitalWrite(PIN_HOUR_SLEEP, LOW);
 
   if(minute)
-    digitalWrite(PIN_MINUTE_SLEEP, HIGH);
+    digitalWrite(PIN_MINUTE_SLEEP, LOW);
+
 
   delayMicroseconds(2000);
 
@@ -49,8 +52,8 @@ void StepperDriver::step(bool hour, bool minute) {
     delayMicroseconds(STEP_INTERVAL);
   }  
 
-  digitalWrite(PIN_HOUR_SLEEP, LOW);
-  digitalWrite(PIN_MINUTE_SLEEP, LOW);  
+  digitalWrite(PIN_HOUR_SLEEP, HIGH);
+  digitalWrite(PIN_MINUTE_SLEEP, HIGH);  
 }
 
 int StepperDriver::get_hour_step_count() {
@@ -76,7 +79,7 @@ int StepperDriver::get_minute_step_count() {
 }
 
 void StepperDriver::calibrate_hour(bool &cont) {
-  digitalWrite(PIN_HOUR_SLEEP, HIGH);
+  digitalWrite(PIN_HOUR_SLEEP, LOW);
   delayMicroseconds(2000);
 
   while(cont) {
@@ -86,11 +89,11 @@ void StepperDriver::calibrate_hour(bool &cont) {
       delayMicroseconds(4 * 12 * STEP_INTERVAL);
   }
 
-  digitalWrite(PIN_HOUR_SLEEP, LOW);
+  digitalWrite(PIN_HOUR_SLEEP, HIGH);
 }
 
 void StepperDriver::calibrate_minute(bool &cont) {
-  digitalWrite(PIN_MINUTE_SLEEP, HIGH);
+  digitalWrite(PIN_MINUTE_SLEEP, LOW);
   delayMicroseconds(2000);
 
   while(cont) {
@@ -100,5 +103,5 @@ void StepperDriver::calibrate_minute(bool &cont) {
       delayMicroseconds(4 * 5 * STEP_INTERVAL);
   }
 
-  digitalWrite(PIN_MINUTE_SLEEP, LOW);
+  digitalWrite(PIN_MINUTE_SLEEP, HIGH);
 }
