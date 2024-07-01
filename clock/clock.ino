@@ -78,6 +78,7 @@ void setup() {
 #if ENABLE_GPS == 1
   gps.begin();
 #endif  
+
 }
 
 void loop() {
@@ -155,6 +156,18 @@ void start_server() {
     if (request->hasParam("tz", true)) {
       String tz = request->getParam("tz", true)->value();
       time_zone_manager.set(tz);
+
+      request->send_P(200, "text/plain", "OK");
+    } else {
+      request->send_P(400, "text/plain", "Missing parameters");
+    }
+  });
+
+  server.on("/set-casio", HTTP_POST, [](AsyncWebServerRequest *request) {
+    if (request->hasParam("casio", true)) {
+      
+      String casio = request->getParam("casio", true)->value();
+      clock_manager.set_casio(casio);
 
       request->send_P(200, "text/plain", "OK");
     } else {

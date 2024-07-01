@@ -5,6 +5,12 @@
 
 void ClockManager::begin() {
   _stepper.begin();
+
+  _preferences.begin("time", false);
+  String casio = _preferences.getString("casio", "");
+  _preferences.end();
+  
+  _casio.set_casio(casio);
 }
 
 void ClockManager::start_ntp() {
@@ -210,6 +216,10 @@ void ClockManager::sync_to_current_time() {
 
   (*_logger)("%02d:%02d -> %02d:%02d", _displayedHour, _displayedMinute, currentHour, currentMinute);
 
+  if (_displayedHour != currentHour) {
+    _casio.beep(currentHour);
+  }
+
   while (offsetHour > 0 && offsetMinute > 0) {
     (*_logger)("  Advance hour and minute");
     offsetHour--;
@@ -292,4 +302,15 @@ void ClockManager::set_minutes() {
     time_source = BUTTONS;
     set_current_time(0, currentMinute, 0);
   }
+}
+
+void ClockManager::set_casio(String casio) {
+  
+  _preferences.begin("time", false);
+  _preferences.putString("casio", casio);
+  _preferences.end();
+
+  _casio.set_casio(casio);
+
+  (*_logger)("Set CASIO to %s", casio);
 }

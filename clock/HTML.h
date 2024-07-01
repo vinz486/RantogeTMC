@@ -64,6 +64,12 @@ const char CONFIG_HTML[] = R"---(
             grid-template-columns: 1fr 1fr 1fr;
         }
 
+        .card form.colx {
+            display: block;
+            grid-gap: 0 1rem;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
         .card form label,
         .card form input {
             display: block;
@@ -124,7 +130,7 @@ const char CONFIG_HTML[] = R"---(
             </div>
             <div class="card">
                 <h2>Date</h2>
-                <form action="/set-date" method="post" class="col3">
+                <form action="/set-date" method="post" class="colx">
                     <p><label for="d">Day</label><input type="text" name="d" id="d" /></p>
                     <p><label for="m">Month</label><input type="text" name="m" id="m" /></p>
                     <p><label for="y">Year</label><input type="text" name="y" id="y" /></p>
@@ -157,6 +163,16 @@ const char CONFIG_HTML[] = R"---(
                 <h2>Demo</h2>
                 <form action="/toggle-demo" method="post">
                     <p><input type="submit" value="Toggle" /></p>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>CASIO hourly beep</h2>
+                <form action="/set-casio" method="post" class="colx">
+                    <p><label for="off">Off</label><input type="radio" name="casio" value="off" id="off" /></p>
+                    <p><label for="on">On</label><input type="radio" name="casio" value="on" id="on" /></p>
+                    <p><label for="day">From 07 to 00</label><input type="radio" name="casio" value="day" id="day" /></p>
+                    <p class="submit"><input type="submit" value="Save" /></p>
                 </form>
             </div>
 
