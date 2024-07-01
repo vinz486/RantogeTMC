@@ -171,7 +171,7 @@ const char CONFIG_HTML[] = R"---(
                 <form action="/set-casio" method="post" class="colx">
                     <p><label for="off">Off</label><input type="radio" name="casio" value="off" id="off" /></p>
                     <p><label for="on">On</label><input type="radio" name="casio" value="on" id="on" /></p>
-                    <p><label for="day">From 07 to 00</label><input type="radio" name="casio" value="day" id="day" /></p>
+                    <p><label for="day">From 08 to 00</label><input type="radio" name="casio" value="day" id="day" /></p>
                     <p class="submit"><input type="submit" value="Save" /></p>
                 </form>
             </div>
